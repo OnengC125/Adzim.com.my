@@ -8,21 +8,33 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 20%;
+            background-color: lightgray;
         }
         button {
             font-size: 20px;
             margin: 10px;
             padding: 10px 20px;
             cursor: pointer;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: darkgreen;
         }
     </style>
 </head>
 <body>
     <h1 id="title">Adzim Comel Tak?</h1>
-    <button onclick="vote()">Yes</button>
-    <button onclick="vote()">No</button><script>
-    function vote() {
-        document.getElementById("title").innerText = "Thanks for your vote";
+    <button onclick="voteYes()">Ya</button>
+    <button onclick="voteNo()">TAKKK</button><script>
+    function voteYes() {
+        document.getElementById("title").innerText = "Nice dho kau";
+    }
+    function voteNo() {
+        document.getElementById("title").innerText = "Uish, jahatnya. nangis adzim";
     }
 </script>
 
