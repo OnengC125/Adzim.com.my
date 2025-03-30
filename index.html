@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,127 +10,128 @@
             background-color: lightgray;
             margin: 0;
             padding: 0;
-        }
+        }.container {
+        margin-top: 50px;
+    }
 
-        .container {
-            margin-top: 50px;
-        }
+    .biodata-box {
+        width: 300px;
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
 
-        .biodata-box {
-            width: 300px;
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
+    .biodata-box img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
 
-        .biodata-box img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
+    .shake {
+        animation: shake 0.5s;
+    }
 
-        .shake {
-            animation: shake 0.5s;
-        }
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
 
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-        }
+    button, .chess-link {
+        font-size: 20px;
+        margin: 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
 
-        button {
-            font-size: 20px;
-            margin: 10px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: green;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
+    button:hover, .chess-link:hover {
+        background-color: darkgreen;
+    }
 
-        button:hover {
-            background-color: darkgreen;
-        }
+    #poll-results {
+        margin-top: 20px;
+        font-size: 18px;
+        display: none;
+    }
+</style>
 
-        #poll-results {
-            margin-top: 20px;
-            font-size: 18px;
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1 id="title">Adzim Comel Tak?</h1>
         <button onclick="voteYes()">Ya</button>
-        <button onclick="voteNo()">TAKKK</button>
-
-        <div class="biodata-box">
-            <img id="adzim-img" src="Screenshot_20250330-080616_2.png" alt="Adzim">
-            <h3>Adzim</h3>
-            <p><strong>Umur:</strong> 13 Tahun</p>
-            <p><strong>Hobi:</strong> Bermain game, melukis</p>
-            <p><strong>Makanan kegemaran:</strong> Nasi goreng</p>
-        </div>
-
-        <div id="poll-results">
-            <h2>Keputusan Undian:</h2>
-            <p>Ya: <span id="yes-count">0</span></p>
-            <p>TAKKK: <span id="no-count">0</span></p>
-        </div>
+        <button onclick="voteNo()">TAKKK</button><div class="biodata-box">
+        <img id="adzim-img" src="Screenshot_20250330-080616_2.png" alt="Adzim">
+        <h3>Adzim</h3>
+        <p><strong>Umur:</strong> 13 Tahun</p>
+        <p><strong>Hobi:</strong> Bermain game, melukis</p>
+        <p><strong>Makanan kegemaran:</strong> Nasi goreng</p>
     </div>
 
-    <audio id="cheer-sound" src="crowd-cheering-fx_C_major.wav"></audio>
-    <audio id="angry-sound" src="angry-crowd-yelling-fx_89bpm_B_minor.wav"></audio>
+    <div id="poll-results">
+        <h2>Keputusan Undian:</h2>
+        <p>Ya: <span id="yes-count">0</span></p>
+        <p>TAKKK: <span id="no-count">0</span></p>
+    </div>
 
-    <script>
-        let yesVotes = localStorage.getItem("yesVotes") ? parseInt(localStorage.getItem("yesVotes")) : 0;
-        let noVotes = localStorage.getItem("noVotes") ? parseInt(localStorage.getItem("noVotes")) : 0;
-        let hasVoted = localStorage.getItem("hasVoted") ? true : false;
+    <a href="chess.html" class="chess-link">Main Chess</a>
+</div>
 
-        function updatePoll() {
-            document.getElementById("yes-count").innerText = yesVotes;
-            document.getElementById("no-count").innerText = noVotes;
-            document.getElementById("poll-results").style.display = "block";
-        }
+<audio id="cheer-sound" src="crowd-cheering-fx_C_major.wav"></audio>
+<audio id="angry-sound" src="angry-crowd-yelling-fx_89bpm_B_minor.wav"></audio>
 
-        function voteYes() {
-            if (hasVoted) return;
-            document.getElementById("title").innerText = "Nice dho kau";
-            document.getElementById("cheer-sound").play();
-            yesVotes++;
-            localStorage.setItem("yesVotes", yesVotes);
-            localStorage.setItem("hasVoted", true);
-            hasVoted = true;
-            updatePoll();
-        }
+<script>
+    let yesVotes = localStorage.getItem("yesVotes") ? parseInt(localStorage.getItem("yesVotes")) : 0;
+    let noVotes = localStorage.getItem("noVotes") ? parseInt(localStorage.getItem("noVotes")) : 0;
+    let hasVoted = localStorage.getItem("hasVoted") ? true : false;
 
-        function voteNo() {
-            if (hasVoted) return;
-            document.getElementById("title").innerText = "Uish, jahatnya. nangis adzim";
-            document.getElementById("angry-sound").play();
-            document.getElementById("adzim-img").classList.add("shake");
-            setTimeout(() => {
-                document.getElementById("adzim-img").classList.remove("shake");
-            }, 500);
-            noVotes++;
-            localStorage.setItem("noVotes", noVotes);
-            localStorage.setItem("hasVoted", true);
-            hasVoted = true;
-            updatePoll();
-        }
+    function updatePoll() {
+        document.getElementById("yes-count").innerText = yesVotes;
+        document.getElementById("no-count").innerText = noVotes;
+        document.getElementById("poll-results").style.display = "block";
+    }
 
+    function voteYes() {
+        if (hasVoted) return;
+        document.getElementById("title").innerText = "Nice dho kau";
+        document.getElementById("cheer-sound").play();
+        yesVotes++;
+        localStorage.setItem("yesVotes", yesVotes);
+        localStorage.setItem("hasVoted", true);
+        hasVoted = true;
         updatePoll();
-    </script>
+    }
+
+    function voteNo() {
+        if (hasVoted) return;
+        document.getElementById("title").innerText = "Uish, jahatnya. nangis adzim";
+        document.getElementById("angry-sound").play();
+        document.getElementById("adzim-img").classList.add("shake");
+        setTimeout(() => {
+            document.getElementById("adzim-img").classList.remove("shake");
+        }, 500);
+        noVotes++;
+        localStorage.setItem("noVotes", noVotes);
+        localStorage.setItem("hasVoted", true);
+        hasVoted = true;
+        updatePoll();
+    }
+
+    updatePoll();
+</script>
 
 </body>
 </html>
