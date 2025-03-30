@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
         }
-        
+
         .container {
             margin-top: 50px;
         }
@@ -35,6 +35,18 @@
             margin-bottom: 10px;
         }
 
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
         button {
             font-size: 20px;
             margin: 10px;
@@ -49,6 +61,12 @@
         button:hover {
             background-color: darkgreen;
         }
+
+        #poll-results {
+            margin-top: 20px;
+            font-size: 18px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -56,23 +74,63 @@
         <h1 id="title">Adzim Comel Tak?</h1>
         <button onclick="voteYes()">Ya</button>
         <button onclick="voteNo()">TAKKK</button>
-        
+
         <div class="biodata-box">
-            <img src="Screenshot_20250330-080616_2.png" alt="Adzim">
+            <img id="adzim-img" src="Screenshot_20250330-080616_2.png" alt="Adzim">
             <h3>Adzim</h3>
             <p><strong>Umur:</strong> 13 Tahun</p>
             <p><strong>Hobi:</strong> Bermain game, melukis</p>
             <p><strong>Makanan kegemaran:</strong> Nasi goreng</p>
         </div>
+
+        <div id="poll-results">
+            <h2>Keputusan Undian:</h2>
+            <p>Ya: <span id="yes-count">0</span></p>
+            <p>TAKKK: <span id="no-count">0</span></p>
+        </div>
     </div>
 
+    <audio id="cheer-sound" src="cheer.mp3"></audio>
+    <audio id="angry-sound" src="angry.mp3"></audio>
+
     <script>
+        let yesVotes = localStorage.getItem("yesVotes") ? parseInt(localStorage.getItem("yesVotes")) : 0;
+        let noVotes = localStorage.getItem("noVotes") ? parseInt(localStorage.getItem("noVotes")) : 0;
+        let hasVoted = localStorage.getItem("hasVoted") ? true : false;
+
+        function updatePoll() {
+            document.getElementById("yes-count").innerText = yesVotes;
+            document.getElementById("no-count").innerText = noVotes;
+            document.getElementById("poll-results").style.display = "block";
+        }
+
         function voteYes() {
+            if (hasVoted) return;
             document.getElementById("title").innerText = "Nice dho kau";
+            document.getElementById("cheer-sound").play();
+            yesVotes++;
+            localStorage.setItem("yesVotes", yesVotes);
+            localStorage.setItem("hasVoted", true);
+            hasVoted = true;
+            updatePoll();
         }
+
         function voteNo() {
+            if (hasVoted) return;
             document.getElementById("title").innerText = "Uish, jahatnya. nangis adzim";
+            document.getElementById("angry-sound").play();
+            document.getElementById("adzim-img").classList.add("shake");
+            setTimeout(() => {
+                document.getElementById("adzim-img").classList.remove("shake");
+            }, 500);
+            noVotes++;
+            localStorage.setItem("noVotes", noVotes);
+            localStorage.setItem("hasVoted", true);
+            hasVoted = true;
+            updatePoll();
         }
+
+        updatePoll();
     </script>
 
 </body>
