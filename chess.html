@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,70 +10,56 @@
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
         #board { width: 400px; margin: 20px auto; }
-        .btn-container { margin-top: 10px; }
-        button {
-            font-size: 16px;
-            padding: 10px 15px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .reset-btn { background-color: green; color: white; }
-        .home-btn { background-color: blue; color: white; }
     </style>
 </head>
 <body>
     <h1>Simple Chess Game</h1>
     <p id="status">White to move</p>
     <div id="board"></div>
-    
-    <div class="btn-container">
-        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
-        <button class="home-btn" onclick="goHome()">Back to Home</button>
-    </div>
-
+    <button onclick="resetGame()" style="background-color: green; color: white; padding: 10px; border: none; cursor: pointer;">Reset Game</button>
+    <button onclick="goHome()" style="background-color: blue; color: white; padding: 10px; border: none; cursor: pointer;">Back to Home</button>
     <script>
-        var board, game = new Chess();
-
-        function onDragStart(source, piece, position, orientation) {
-            if (game.game_over() || (game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-                return false;
-            }
+        var board, game = new Chess();function onDragStart(source, piece, position, orientation) {
+        if (game.game_over() || (game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+            return false;
         }
+    }
 
-        function onDrop(source, target) {
-            var move = game.move({ from: source, to: target, promotion: 'q' });
-            if (move === null) return 'snapback';
-            updateStatus();
+    function onDrop(source, target) {
+        var move = game.move({ from: source, to: target, promotion: 'q' });
+        if (move === null) return 'snapback';
+        updateStatus();
+    }
+
+    function updateStatus() {
+        var status = game.turn() === 'w' ? 'White to move' : 'Black to move';
+        if (game.in_checkmate()) {
+            status = 'Game over, ' + (game.turn() === 'w' ? 'Black' : 'White') + ' wins!';
+        } else if (game.in_draw()) {
+            status = 'Game drawn';
         }
+        document.getElementById('status').innerText = status;
+    }
 
-        function updateStatus() {
-            var status = game.turn() === 'w' ? 'White to move' : 'Black to move';
-            if (game.in_checkmate()) {
-                status = 'Game over, ' + (game.turn() === 'w' ? 'Black' : 'White') + ' wins!';
-            } else if (game.in_draw()) {
-                status = 'Game drawn';
-            }
-            document.getElementById('status').innerText = status;
-        }
+    function resetGame() {
+        game.reset();
+        board.position('start');
+        updateStatus();
+    }
 
-        function resetGame() {
-            game.reset();
-            board.position('start');
-            updateStatus();
-        }
+    function goHome() {
+        window.location.href = 'index.html';
+    }
 
-        function goHome() {
-            window.location.href = "index.html";
-        }
-
+    document.addEventListener("DOMContentLoaded", function() {
         board = Chessboard('board', {
             draggable: true,
             position: 'start',
             onDragStart: onDragStart,
             onDrop: onDrop
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
