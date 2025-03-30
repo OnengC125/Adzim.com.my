@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chess Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboardjs/1.0.0/js/chessboard.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboardjs/1.0.0/css/chessboard.min.css" />
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #board { width: 400px; margin: 20px auto; }
+        .btn-container { margin-top: 10px; }
+        button {
+            font-size: 16px;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .reset-btn { background-color: green; color: white; }
+        .home-btn { background-color: blue; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Simple Chess Game</h1>
+    <p id="status">White to move</p>
+    <div id="board"></div>
+    
+    <div class="btn-container">
+        <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+        <button class="home-btn" onclick="goHome()">Back to Home</button>
+    </div>
+
+    <script>
+        var board, game = new Chess();
+
+        function onDragStart(source, piece, position, orientation) {
+            if (game.game_over() || (game.turn() === 'w' && piece.search(/^b/) !== -1) || (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                return false;
+            }
+        }
+
+        function onDrop(source, target) {
+            var move = game.move({ from: source, to: target, promotion: 'q' });
+            if (move === null) return 'snapback';
+            updateStatus();
+        }
+
+        function updateStatus() {
+            var status = game.turn() === 'w' ? 'White to move' : 'Black to move';
+            if (game.in_checkmate()) {
+                status = 'Game over, ' + (game.turn() === 'w' ? 'Black' : 'White') + ' wins!';
+            } else if (game.in_draw()) {
+                status = 'Game drawn';
+            }
+            document.getElementById('status').innerText = status;
+        }
+
+        function resetGame() {
+            game.reset();
+            board.position('start');
+            updateStatus();
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+
+        board = Chessboard('board', {
+            draggable: true,
+            position: 'start',
+            onDragStart: onDragStart,
+            onDrop: onDrop
+        });
+    </script>
+</body>
+</html>
